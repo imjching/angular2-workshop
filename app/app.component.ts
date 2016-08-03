@@ -66,7 +66,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  onSubmitForm(data: Object): void {
+  onSubmitForm(data: Post): void {
     this.posts.push(new Post(data.title, data.link));
   }
 }
