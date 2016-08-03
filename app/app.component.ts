@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavBarComponent } from './nav-bar.component';
 import { AddLinkFormComponent } from './add-link-form.component';
 import { TAB_DIRECTIVES } from 'ng2-bootstrap/components/tabs';
 import { PostComponent } from './post.component';
 import { Post } from './post.class';
+import { RedditService } from './reddit.service';
 
 @Component({
   selector: 'reddit-app',
@@ -30,7 +31,7 @@ import { Post } from './post.class';
                   <br>
                   <ul class="list-group">
                     <li class="list-group-item" *ngFor="let post_data of posts">
-                      <reddit-post class="post" [post]="post_data"></reddit-post>
+                      <reddit-post class="post" [post]="post_data" (updateVotes)="updateVotes(post_data, $event)"></reddit-post>
                     </li>
                   </ul>
                 </tab>
@@ -47,16 +48,22 @@ import { Post } from './post.class';
   `,
   directives: [NavBarComponent, AddLinkFormComponent, TAB_DIRECTIVES, PostComponent]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   posts: Post[];
 
-  constructor() {
-    this.posts = [
-      new Post('Facebook', 'https://www.facebook.com', 3),
-      new Post('Google', 'https://www.google.com', 5),
-      new Post('LinkedIn', 'https://www.linkedin.com', -3)
-    ];
+  constructor(private redditService: RedditService) {}
+
+  ngOnInit() {
+    this.redditService.getPosts().subscribe((res) => { this.posts = res });
+  }
+
+  updateVotes(post_data: Post, vote: number): void {
+    for (let i = 0; i < this.posts.length; i++) {
+      if (this.posts[i].title == post_data.title && this.posts[i].link == post_data.link) {
+        this.posts[i].votes += vote;
+      }
+    }
   }
 
   onSubmitForm(data: Object): void {

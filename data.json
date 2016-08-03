@@ -1,0 +1,19 @@
+{
+  "data": [
+    {
+      "title": "Facebook",
+      "link": "https://www.facebook.com",
+      "votes": 3
+    },
+    {
+      "title": "Google",
+      "link": "https://www.google.com",
+      "votes": 5
+    },
+    {
+      "title": "LinkedIn",
+      "link": "https://www.linkedin.com",
+      "votes": -3
+    }
+  ]
+}

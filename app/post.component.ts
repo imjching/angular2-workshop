@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { Post } from './post.class';
 
 @Component({
@@ -26,12 +26,13 @@ import { Post } from './post.class';
 })
 export class PostComponent {
   @Input() post: Post;
+  @Output() updateVotes = new EventEmitter<number>();
 
   upvote(): void {
-    this.post.upvote();
+    this.updateVotes.emit(1);
   }
 
   downvote(): void {
-    this.post.downvote();
+    this.updateVotes.emit(-1);
   }
 }
